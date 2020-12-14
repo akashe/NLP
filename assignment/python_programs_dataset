@@ -1,0 +1,807 @@
+# write a python function to return all the binary strings with n bits
+def bit_strings(n):
+    if n == 0:
+        return []
+    if n == 1:
+        return ["O", "1"]
+    return [digit + bitstring for digit in bit_strings(1) for bitstring in bit_strings(n - 1)]
+    
+# write a python function to return the size of binary tree.
+def find_size_recursive(root):
+    if not root:
+        return 0
+    return find_size_recursive(root.left) + find_size_recursive(root.right) + 1
+    
+# write a python function to return the sum of all elements in a binary tree.
+def sum_in_binary_tree_recursive(root):
+    if root is None:
+        return 0
+    return root.data + sum_in_binary_tree_recursive(root.left) + sum_in_binary_tree_recursive(root.right)
+
+# write a python function which given two trees returns whether they are mirrors of each other
+def are_mirrors(root1, root2):
+    if root1 is None and root2 is None:
+        return 1
+    if root1 is None or root2 is None:
+        return 0
+    if root1.data != root2.data:
+        return 0
+    else:
+        return are_mirrors(root1.left, root2.right) and are_mirrors(root1.right, root2.left)
+        
+# write a python function that bubble sorts a list, A, which only contains numbers
+def bubble_sort(A):
+    for i in range(len(A)):
+        for k in range(len(A)-1, i, -1):
+            if A[k] < A[k-1]:
+                A[k],A[k-1] = A[k-1],A[k]
+                
+
+# write a python function that selection sorts a list, A, which only contains numbers
+def selection_sort(A):
+    for i in range(len(A)):
+        least = i
+        for k in range(i + 1, len(A)):
+            if A[k] < A[least]:
+                least = k
+        A[i], A[least] = A[least], A[i]
+
+
+# write a python function that insertion sorts a list, A, which only contains numbers
+def insertion_sort(A):
+    for i in range(1,len(A)):
+        temp = A[i]
+        k = i
+        while k >0 and temp < A[k-1]:
+            A[k] = A[k-1]
+            k -= 1
+        A[k] = temp
+        
+        
+# write a python function that merge sorts a list, A, which only contains numbers
+def merge_sort(A):
+    if len(A) > 1:
+        mid = len(A) // 2
+        left = A[:mid]
+        right = A[mid:]
+        merge_sort(left)
+        merge_sort(right)
+        i = 0
+        j = 0
+        k = 0
+        while i < len(left) and j < len(right):
+            if left[i] < right[j]:
+                A[k] = left[i]
+                i += 1
+            else:
+                A[k] = right[j]
+                j += 1
+            k += 1
+        while i < len(left):
+            A[k] = left[i]
+            i += 1
+            k += 1
+        while j < len(right):
+            A[k] = right[j]
+            j += 1
+            k += 1
+            
+# write a python function that finds a number n in a list, A, which only contains numbers
+def find_n(A, n):
+    for i in range(len(A)):
+        if A[i] == n:
+            return True
+    return False    
+    
+# Given a list A of n -1 integers, these integers are in the range of 1 to n and one of the integers is missing in the list. Write a python function algorithm to return the missing integer. Assume there are no duplicates in the list.
+def find_missing_number(A):
+    n = len(A)
+    for i in range(1,n+1):
+        found = 0
+        for j in range(0,n):
+            if i == A[j]:
+                found = 1
+        if found == 0:
+            return i       
+            
+# Given a list A of n -1 integers, these integers are in the range of 1 to n and one of the integers is missing in the list. Write a python function algorithm to return the missing integer using XOR operator. Assume there are no duplicates in the list.
+def find_missing_number_with_xor(A):
+    n = len(A)
+    x = 0
+    for i in range(1,n+2):
+        x = x ^ i
+    for i in range(0,n):
+        x = x ^ A[i]
+    return x     
+    
+    
+# Given a sorted list, A, of n elements, possibly with duplicates. Write a python function that returns the number of occurrences of a number, data.
+def linear_search_count(A, data):
+    count = 0
+    for i in range(0, len(A)):
+        if A[i] == data:
+            count += 1
+    return count     
+    
+    
+# Given a list A, write a python function seperates even and odd numbers. Example: Input = [12,34,45,9,8,90,3], Output = [12,34,90,8,9,45,3]
+def seperate_even_odd(A):
+    left = 0
+    right = len(A) - 1
+    while left < right:
+        while A[left] % 2 == 0 and left < right:
+            left += 1
+        while A[right] % 2 == 1 and left < right:
+            right -= 1
+        if left < right:
+            A[left], A[right] = A[right], A[left]
+            left += 1
+            right -= 1
+            
+            
+# Given n number n, write a python function that returns the number of trailing  zeros in n!.
+def number_of_trailing_zeroes_of_factorial(n):
+    count = 0
+    if n < 0:
+        return -1
+    i = 5
+    while n/i > 0:
+        count += n/i
+        i *= 5
+    return count     
+    
+    
+# Given a list A of 2n integers in the following formnt a1,a2,a3... an b1,b2,b3... bn. Write a python function that shuffle the array to a1,b1,a2,b2,a3,b3...an,bn without any extra memory.
+def rearrange_array_elements_a1b1a2b2(A):
+    n = len(A) // 2
+    i = 0
+    q = 1
+    k = n
+    while i < n:
+        j = k
+        while j > i + q:
+            A[j], A[j - 1] = A[j - 1], A[j]
+            j -= 1
+        i += 1
+        k += 1
+        q += 1 
+        
+        
+# Given a list A of numbers, write a python function that returns true if the list is pairwise sorted or not? A list is considered pairwise sorted if each successive pair of numbers is in sorted (non-decreasing) order.
+def check_pairwise_sorted(A):
+    n = len(A)
+    if n == 0 or n == 1:
+        return 1
+    for i in range(0, n - 1, 2):
+        if A[i] > A[i + 1]:
+            return 0
+    return 1    
+    
+    
+# Given a list A of n numbers, write a python function that prints the frequencies of elements without using extra space. Assume all elements are positive, editable and less than n.
+def frequency_counter(A):
+    pos = 0
+    n = len(A)
+    while pos < n:
+        expectedPos = A[pos] - 1
+        if A[pos] > 0 and A[expectedPos] > 0:
+            A[pos], A[expectedPos] = A[expectedPos], A[pos]
+            A[expectedPos] = -1
+        elif A[pos] > 0:
+            A[expectedPos] -= 1
+            A[pos] = 0
+            pos += 1
+        else:
+            pos += 1
+    for i in range(1, n):
+        print(i + 1, "-->", abs(A[i]))    
+        
+        
+# Given a list A, write a python function that returns the unique elements of that list
+def remove_duplicates(A):
+    unique = []
+    helperset = set()
+    for x in A:
+        if x not in helperset:
+            unique.append(x)
+            helperset.add(x)
+    return unique
+    
+# Given a string A, write a python function that returns the first repeating letter in the string.
+def first_repeated_char(A):
+    table = {}
+    for char in A.lower():
+        if char in table:
+            table[char] += 1
+            return char
+        elif char != " ":
+            table[char] = 1
+        else:
+            table[char] = 0
+    return None    
+    
+    
+# Given a list A of numbers, write a python function that finds the continous subsequence for which the sum of elements is maximum and returns the sum
+def max_continuous_sum(A):
+    maxsum = 0
+    n = len(A)
+    m = [0] * (n + 1)
+    if A[0] > 0:
+        m[0] = m[0]
+    else:
+        m[0] = 0
+    for i in range(1, n):
+        if m[i - 1] + A[i] > 0:
+            m[i] = m[i - 1] + A[i]
+        else:
+            m[i] = 0
+    for i in range(0, n):
+        if m[i] > maxsum:
+            maxsum = m[i]
+    return maxsum            
+    
+    
+# write a python program that prints the mean of a given list A which contains only numbers
+A = [12,3,4]
+sum_ = sum(A)
+len_ = len(A)
+print("mean of the list", A, "is", sum_/len_)
+          
+# write a python program that prints whether an element B is present in a given list A which contains only numbers.
+A = [12,3,5]
+B = 5
+print("B is present in A is",B in A) 
+
+
+# write a python function that searches for a key B in a given dictionary A and returns true if found.
+def key_present(B, A):
+	if B in A:
+		return True
+	return False
+
+
+# write a python function that prints "Overlapped" if two given lists A and B have atleast one element in common.
+def is_overlapping(A,B):
+	for i in A:
+		if i in B:
+			print("Overlapped")
+
+
+# write a python function that prints "Overlapped" if two given dictionaries A and B have atleast one key in common.
+def is_overlapping(A,B):
+    for i in A:
+        if i in B:
+            print("Overlapped")
+
+# write a python function that returns the second largest number in a list A.    
+def second_largest_number(A):
+    assert len(A) >= 2
+    new_set = set(A)
+    new_set.remove(max(new_set))
+    return max(new_set) 
+
+# write a python function that returns the second largest number in a tuple A.
+def second_largest_number(A):
+    assert len(A) >= 2
+    new_set = set(A)
+    new_set.remove(max(new_set))
+    return max(new_set) 
+
+# write a python function that returns True if a string s is present in a list A.
+def is_string_present(s, A):
+    if s in A:
+        return True
+    return False
+
+# write a python function prints a dictionary A after sorting based on the values of the key of the dictionary A.
+def print_dict_after_sorting(A):
+    print(sorted(A.items(), key=lambda kv: (kv[1], kv[0])))
+
+
+# write a program that searches a pattern A in a string S using regex.               
+import re
+def match_string(S, A):
+    regex = re.compile(A)
+    return regex.match(S)
+
+# write a python function that returns an affine transformation of an input A.
+def affine(A,W=0.8,b=0.2):
+    return A*W + b
+
+# write a python function that given two list A and B, appends them and returns a new list.
+from copy import deepcopy
+def append_return_new(A,B):
+    C = deepcopy(A)
+    C.append(*B)
+    return C
+
+# write a python function that given two dictionaries A and B, appends them and returns a new dictionary.
+from copy import deepcopy
+def append_return_new(A, B):
+    C = deepcopy(A)
+    C.update(B)
+    return C
+
+# write a python function that given two sets A and B, appends them and returns a new set.
+from copy import deepcopy
+def append_return_new(A, B):
+    C = deepcopy(A)
+    C.update(B)
+    return C
+
+# write a program that given a number A prints its abosulte value
+A = 10.4
+absolute_value = abs(A)
+print(absolute_value)
+
+# write a program that given a boolean list , A, prints whether all the elements are True or not
+A = [True , False]
+all_true = all(A)
+print("The statement that all elements in A are True is ",all_true)
+
+
+# write a program that given a boolean list , A, prints whether any element is True or not
+A = [True , False]
+any_true = any(A)
+print("The statement that all elements in A are True is ",any_true)
+
+# write a program that given a number A, prints its binary value
+A = 10
+bin_ = bin(A)
+print("Binary value of ",A," is ",bin_)
+
+# write a program that given an object A, returns its boolean value
+A = 0
+bool_ = bool(A)
+print("Boolean value of ",A," is ",bool_)
+
+# write a program that given a number i prints the string representing a character whose Unicode code point is the integer i.
+i = 90
+char_i = chr(i)
+print("character representation of ",i," is ",char_i)
+
+# write a program that given an integer A prints its complex form
+A = 5
+complex_form = complex(A)
+print("Complex from the input ",A," is ", complex_form)
+
+# write a program that given an integer A the real part of a complex number and B the imaginary part of the same complex number, prints the complete complex number
+A = 5
+B = 3
+complex_form = complex(A,B)
+print("Complex from the input ",A," and ",B," is ", complex_form)
+
+# write a program that prints the list of names in local scope
+print("All variables in the local scope are ",dir())
+
+# write a program that prints all the methods and variables within the object representing complex number (3i,5j)
+complex_form = complex(3,5)
+print("All methods and variables within the object representing complex number (3i,5j) are \n",dir(complex_form) )
+
+# write a program that prints the quotient and remainder of division of two non complex numbers A and B.
+A = 10
+B = 3
+quotient, remainder = divmod(A,B)
+print("the quotient and remainder of divison of ",A," and ",B," are respectively ",quotient,remainder)
+
+# write a program that if given two integers A and B prints if A is completely divisible by B using divmod
+A = 10
+B = 3
+quotient, remainder = divmod(A,B)
+print("A is divisible by B is",bool(remainder))
+
+# write a program that given a string based expression A prints its resultant value
+A = "1024 + 1024"
+evaluated_value = eval(A)
+print("The corresponding value of the expression",A," is",evaluated_value)
+
+
+# write a program that given a string based value A prints its corresponding float value
+A = '   -12345\n'
+float_value = float(A)
+print("The corresponding float value of the expression",A," is",float_value)
+
+# write a program that given an integer number converts it to its lowercase hexadecimal string
+A =255
+hex_value = hex(A)
+print("The corresponding hex value of the integer",A," is",hex_value)
+
+# write a program that takes input from user and later prints the same input
+A = input("Please enter your print")
+print("The user gave the following input",A)
+
+# write a program that takes input from user and later prints the same input in reverse
+A = input("Please enter your print")
+print("The user gave the following input",A[::-1])
+
+# write a program that prints the int representation of a float number A
+A = 10.1
+int_A = int(A)
+print("The integer representation of the float number",A,"is",int_A)
+
+# write a program that prints an integer A in an octal string format
+A = 10
+oct_A = oct(A)
+print("The octal form of the integer",A,"is",oct_A)
+
+
+# write a program that given a string representing one Unicode character, A, return an integer representing the Unicode code point of that character
+A = 'a'
+int_unicode = ord(A)
+print("Integer of the unicode character",A,"is",int_unicode)
+
+# write a program that prints the integers between two integers A and B but in reverse order
+A = 5
+B = 10
+print("Integers between",A,"and",B,"but in reverse order are \n",list(range(A,B))[::-1])
+
+# write a program that prints every other integer between two integers A and B
+A = 5
+B = 10
+print("Alternative integers between",A,"and",B,"but in reverse order are \n",list(range(A,B))[::2])
+
+# write a program that given a 2d list A, prints only the second row
+A = [[1,2,3],[4,5,6]]
+print("The second column in the 2 list is ",A[1])
+
+# write a program that given a 2d list A, prints only the second row
+A = [[1,2,3],[4,5,6]]
+print("The second column in the 2 list is ",A[0])
+
+# write a program that sums a list A containing integers using sum()
+A = [1,2,3]
+print("sum of the list",A,"is",sum(A))
+
+# write a program that sums a tuple A containing integers using sum()
+A = (1,2,3)
+print("sum of the list",A,"is",sum(A))
+
+# write a function that given two strings A and B returns true if they are palindrome
+def check_palindrome(A,B):
+    return A == B[::-1]
+    
+# write a program that prints your current working directory
+import os
+print(os.getcwd())
+
+# write a program that changes directory to parent directory
+import os
+os.chdir("..")
+
+# write a python function that returns the sum of fibonacci sequence till n terms
+def fib(n):
+    a = 0
+    seq_ = [0]
+    for i in range(1,n):
+        seq_.append(i+a)
+        a =i
+    return sum(seq_)
+    
+# write a program that prints the area and preimeter of an rectangle with b breadth and h height
+def area_and_perimeter(b,h):
+    print("Area = ",b*h)
+    print("Perimeter =",2*(b+h))
+   
+# write a python function that returns True if a word A has any vowel in it
+def has_vowel(A):
+    vowels = ('a','e','i','o','u')
+    for v in vowels:
+        if v in A:
+            return True
+    return False
+    
+    
+# write a python function that draws a rectangle
+def draw_rectangle():
+    print('*'*15)
+    print('*',' '*11,'*')
+    print('*',' '*11,'*')
+    print('*'*15)
+    
+    
+# write a python function that given a number t representing temperature in Celcius converts temperature from Celcius to Fahreheit     
+def convert(t):
+    return t * 9 / 5 + 32  
+    
+# write a python program that reverses a list A without using slicing and no seperate list
+A = [1,2,3]
+A.reverse()    
+
+# write a python function that yields a generator that returns fibonnaci sequence
+def fibonacci_generator():
+    a, b = 0, 1
+    while True:
+        yield b
+        a, b = b, a + b
+        
+# write a python function that returns the greatest common divisor of 2 integers num1 and num2
+def gcd(num1, num2):
+    min = num1 if num1 < num2 else num2
+    largestFactor = 1
+    for i in range(1, min + 1):
+        if num1 % i == 0 and num2 % i == 0:
+            largestFactor = i
+    return largestFactor 
+    
+    
+# write a python function that draws a tree of height height.
+def tree(height):
+    row = 0
+    while row < height:
+        count = 0
+        while count < height - row:
+            print(end=" ")
+            count += 1
+        count = 0
+        while count < 2*row + 1:
+            print(end="*")
+            count += 1
+        print()
+        row += 1
+        
+# Write a Python program to sort a list of tuples using Lambda
+subject_marks = [('English', 88), ('Science', 90), ('Maths', 97), ('Social sciences', 82)]
+subject_marks.sort(key = lambda x: x[1])
+print("\nSorting the List of Tuples:")
+print(subject_marks)  
+
+# Write a Python program to square and cube every number in a given list of integers using Lambda.
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+square_nums = list(map(lambda x: x ** 2, nums))
+cube_nums = list(map(lambda x: x ** 3, nums))
+print(cube_nums)   
+
+# Write a Python program to find numbers divisible by nineteen or thirteen from a list of numbers using Lambda. 
+nums = [19, 65, 57, 39, 152, 639, 121, 44, 90, 190]
+result = list(filter(lambda x: (x % 19 == 0 or x % 13 == 0), nums)) 
+print(result)           
+
+# Write a Python program to count float number in a given mixed list using lambda. 
+list1 = [1, 'abcd', 3.12, 1.2, 4, 'xyz', 5, 'pqr', 7, -5, -12.22]
+ert = list(map(lambda i: isinstance(i, float), list1))
+result = len([e for e in ert if e])
+print("Number of floats in the said mixed list:",result)
+
+# Write a Python program to remove all elements from a given list present in another list using lambda.
+list1 = [1,2,3,4,5,6,7,8,9,10]
+list2 = [2,4,6,8]
+result = list(filter(lambda x: x not in list2, list1))
+print("Remove all elements from 'list1' present in 'list2:",result)
+
+# Write a Python program to print alphabet pattern 'A'.
+result_str=""    
+for row in range(0,7):    
+    for column in range(0,7):     
+        if (((column == 1 or column == 5) and row != 0) or ((row == 0 or row == 3) and (column > 1 and column < 5))):    
+            result_str=result_str+"*"    
+        else:      
+            result_str=result_str+" "    
+    result_str=result_str+"\n"    
+print(result_str)
+
+# Write a Python program to print alphabet pattern 'E'.
+result_str=""    
+for row in range(0,7):    
+    for column in range(0,7):     
+        if (column == 1 or ((row == 0 or row == 6) and (column > 1 and column < 6)) or (row == 3 and column > 1 and column < 5)):  
+            result_str=result_str+"*"    
+        else:      
+            result_str=result_str+" "    
+    result_str=result_str+"\n"    
+print(result_str)
+
+# Write a Python function to print the ratio of positive numbers, negative numbers and zeroes in a list of integers nums.
+def plusMinus(nums):
+    n = len(nums)
+    n1 = n2 = n3 = 0
+
+    for x in nums:
+        if x > 0:
+            n1 += 1
+        elif x < 0:
+            n2 += 1
+        else:
+            n3 += 1
+    print("Ratio of positive numbers, negative numbers and zeroes:",round(n1 / n, 2), round(n2 / n, 2), round(n3 / n, 2))
+
+# Write a Python program to copy the contents of a file 'test.py' to another file 'abc.py' 
+from shutil import copyfile
+copyfile('test.py', 'abc.py')
+
+# Write a Python program to read first n lines of a file.
+def file_read_from_head(fname, n):
+    from itertools import islice
+    with open(fname) as f:
+        for line in islice(f, nlines):
+            print(line)
+            
+# Write a Python function that matches a string that has an a followed by zero or more b's.  
+import re
+def text_match(text):
+    patterns = 'ab*?'
+    if re.search(patterns,  text):
+        return 'Found a match!'
+    else:
+        return 'Not matched!'  
+        
+# Write a Python function to insert spaces between words starting with capital letters.
+import re
+def capital_words_spaces(str1):
+  return re.sub(r"(\w)([A-Z])", r"\1 \2", str1)          
+  
+  
+# Write a Python function to return all possible combinations of the elements of a given list list1 using itertools module.
+import itertools
+def combinations_list(list1):
+    temp = []
+    for i in range(0,len(list1)+1):
+        temp.append(list(itertools.combinations(list1,i)))
+    return temp   
+    
+# Given a list, write a program to input a list and create a new list containing only the entries greater than 50.
+L = eval(input('Enter a list: '))
+M = []
+for x in L:
+    if x > 50:
+        M.append(x)
+print(M)  
+
+# write a program to input a list and rotate items in a list left.
+L = eval(input('Enter a list: '))
+save = L[0]
+for i in range(len(L)-1):
+    L[i] = L[i+1]
+L[-1] = save
+print(L)     
+
+# write a program that prints the result of 50 coin flips.
+from random import choice
+s = ''
+for i in range(100):
+    s += choice('HT')
+print(s)
+
+
+# write a python function that print out the last char of every word in a sentence S.
+def every_last_char(sentence):
+    for words in sentence.split(' '):
+        print(words[-1])
+        
+# write a program that reads from a file wordlist.txt and create a new file new_wordlist.txt consisting of all the words that are 5 letters or less
+output_file = open('new_wordlist.txt', 'w')
+lines = [line.strip() for line in open('wordlist.txt')]
+for line in lines:
+    if len(line) <= 5:
+        print(line, file=output_file)
+output_file.close()  
+
+# write a python function that returns Euler phi function for an integer n (how many numbers are relatively prime to a number)
+from fractions import gcd
+def phi(n):
+    count = 0
+    for i in range(1, n):
+        if gcd(n, i) == 1:
+            count += 1
+    return count
+    
+# write a python function that returns date of easter in any year Y
+def easter(Y):
+    C = Y // 100
+    m = (15 + C - C//4 - (8*C+13)//25) % 30
+    n = (4 + C - C//4) % 7
+    a = Y % 4
+    b = Y % 7
+    c = Y % 19
+    d = (19*c+m) % 30
+    e = (2*a+4*b+6*d+n) % 7
+
+    if d==29 and e==6:
+        return 'April 19'
+    elif d==28 and e==6 and m in [2,5,10,13,16,21,34,39]:
+        return 'April 18'
+    elif 22+d+e <= 31:
+        return 'March ' + str(22+d+e)
+    else:
+        return 'April ' + str(d+e-9)    
+        
+# Given list of integers and an integer n, write a python function that finds an element in list L which is closest to an integer n, returning smaller one in case of a tie.
+def closest(L, n):
+    best = L[0]
+    for x in L:
+        if abs(x-n) < abs(best-n) or (abs(x-n) == abs(best-n) and x < best):
+            best = x
+    return best       
+    
+# write a python function that three lists L, M and N and shuffles them concurrently
+from random import shuffle
+def triple_shuffle(L, M, N):
+    I = list(range(len(L)))
+    shuffle(I)
+    for i in range(len(I)):
+        L[i], L[I[i]] = L[I[i]], L[i]
+        M[i], M[I[i]] = M[I[i]], M[i]
+        N[i], N[I[i]] = N[I[i]], N[i]       
+        
+# write a python function that prints a 2d list nicely.
+def print_2d(L):
+    for i in range(len(L)):
+        for j in range(len(L[i])):
+            print(L[i][j], end=' ')
+        print()   
+        
+# write a python program that takes a list L with positive and negative numbers and prints it after replacing the first three negative numbers with 0.
+L = [-1,0,4,-3,6,-2]
+count = 0
+i = 0
+while count < 3 and i < len(L):
+    while i < len(L) and L[i] >= 0:
+        i += 1
+    count += 1
+    if i < len(L):
+        L[i] = 0
+        
+# write a python program that generates random numbers untill a repeat happens
+from random import randint
+n = eval(input('Enter n: '))
+Previous = []
+i = 1
+while True:
+    r = randint(1, n)
+    print(i, '. ', r, sep='')
+    if r in Previous:
+        break
+    Previous.append(r)
+    i += 1     
+    
+# write a class 'Calendar' with functions to check if a year is leap year, the first day of the month m and prints calendar for a month m
+class Calendar:
+    def __init__(self, year):
+        self.year = year
+
+    def is_leap_year(self):
+        return self.year % 400 == 0 or (self.year % 4 == 0 and self.year % 100 != 0)
+
+    def first_day(self, m):
+        p = (14-m) // 12
+        q = self.year - p
+        r = q + q//4 - q//100 + q//400
+        s = m + 12*p - 2
+        t = (1 + r + (31*s)//12) % 7
+        return t
+
+    def print_calendar(self, m):
+        month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        if self.is_leap_year() and m == 2:
+            days = 29
+        else:
+            days = month_days[m-1]
+
+        c = 0
+        for i in range(self.first_day(m)):
+            c += 1
+            print('    ', end='')
+            
+        for i in range(1, days+1):
+            print('{:4d}'.format(i), end='')
+            c += 1
+            if c % 7 == 0:
+                print()
+        print()       
+  
+  
+# write a program that converts degrees-minutes-seconds form to decimal form
+s = input('Enter angle: ')
+L = s.split('d')
+degrees = int(L[0])
+M = L[1].split("'")
+minutes = int(M[0])
+seconds = int(M[1])
+print(degrees + minutes/60 + seconds/3600)
+            
+            
+# write a program that inputs a number num and prints its divisibility by 7
+num = eval(input('Enter a number: '))
+if num % 7 == 0:
+    print('It is divisible by 7.')
+else:
+    print('Not divisible by 7.')            
